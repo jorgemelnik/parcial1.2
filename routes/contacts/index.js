@@ -52,7 +52,7 @@ export default async function (fastify, opts) {
                 const id = parseInt(request.params.id);
                 const index = contactos.findIndex(c => c.id == id);
 
-                if (0 >= index)
+                if (0 > index)
                     return reply.notFound("No existe el contacto.");
                 contactos.splice(index, 1);
                 return reply.status(204).send();
@@ -67,66 +67,45 @@ export default async function (fastify, opts) {
             body: { $ref: "contactoSinIdSchema" },
             response: {
                 201: { $ref: "contactoSchema" },
+                400: { $ref: "response400Schema" }
             },
         },
         handler: async function (request, reply) {
             const contacto = request.body;
             contacto.id = id++;
             contactos.push(contacto);
-            return reply.status(201).send(contactos[id - 1]);
+            return reply.status(201).send(contacto);
         }
     });
 
     fastify.put('/:id', {
         schema: {
+            params: { $ref: "idParamSchema" },
+            body: { $ref: "contactoSchema" },
             response: {
-                200: {
-                    description: 'Contacto',
-                    type: 'object',
-                    properties: {
-                        id: { type: 'number' },
-                        foto: { type: 'string' },
-                        nombre: { type: 'string' },
-                        sobrenombre: { type: 'string' },
-                        edad: { type: 'number' },
-                        email: { type: 'string' },
-                        telefono: { type: 'string' }
-                    }
-                },
-                404: {
-                    description: 'Contacto no encontrado',
-                    type: 'object',
-                    properties: {
-                        message: { type: 'string' }
-                    }
-                }
+                200: { $ref: "contactoSchema" },
+                404: { $ref: "response404Schema" },
+                400: { $ref: "response400Schema" }
             },
-            body: {
-                type: 'object',
-                required: ['foto', 'nombre', 'sobrenombre', 'edad', 'email', 'telefono'],
-                properties: {
-                    foto: { type: 'string' },
-                    nombre: { type: 'string', minLength: 5 },
-                    sobrenombre: { type: 'string', minLength: 2, maxLength: 10 },
-                    edad: { type: 'number', minimum: 18 },
-                    email: { type: 'string', format: 'email' },
-                    telefono: { type: 'string', minLength: 3, maxLength: 20 }
-                }
-            }
+
         },
         handler: async function (request, reply) {
-            const id = request.params.id
-            if (id >= contactos.length)
-                return reply.status(404).send({ message: "No existe el contacto" });
-            const datos = request.body
-            contactos[id].nombre = datos.nombre;
-            contactos[id].sobrenombre = datos.sobrenombre;
-            contactos[id].edad = datos.edad;
-            contactos[id].email = datos.email;
-            contactos[id].telefono = datos.telefono;
-            return reply.status(200).send(contactos[id]);
+            // =>
+            const id = parseInt(request.params.id);
+            const contactoRecibido = request.body
+            if (id !== contactoRecibido.id)
+                return reply.badRequest();
+
+            const contactoAModificar = contactos.find(c => c.id === id);
+            if (!contactoAModificar)
+                return reply.notFound();
+
+            contactoAModificar.nombre = contactoRecibido.nombre;
+            contactoAModificar.sobrenombre = contactoRecibido.sobrenombre;
+            contactoAModificar.edad = contactoRecibido.edad;
+            contactoAModificar.email = contactoRecibido.email;
+            contactoAModificar.telefono = contactoRecibido.telefono;
+            return reply.send(contactoAModificar);
         }
     });
-
-
 }

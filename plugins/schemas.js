@@ -30,7 +30,7 @@ export default fp(async (fastify) => {
       error: { type: "string" },
       message: { type: 'string' }
     },
-    required: ["statusCode", "code", "error", "message"],
+    required: ["statusCode", "error", "message"],
   });
 
   fastify.addSchema({
