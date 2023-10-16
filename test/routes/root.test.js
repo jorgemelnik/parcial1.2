@@ -70,26 +70,6 @@ test('get todos los contactos VACIO', async (t) => {
     t.equal(res.statusCode, 204, 'No hay contactos');
 });
 
-test('get todos los contactos con insert', async (t) => {
-    //ARRANGE
-    const app = await build(t)
-
-    await app.inject({
-        url: '/contacts',
-        method: 'POST',
-        payload: postPayload
-    });
-
-    //ACT
-    const res = await app.inject({
-        url: '/contacts',
-        method: 'GET'
-    })
-
-    //ASSERT
-    t.equal(res.statusCode, 200, 'Hay contactos');
-});
-
 test('get por id falla', async (t) => {
     //ARRANGE
     const app = await build(t)

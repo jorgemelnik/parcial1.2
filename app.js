@@ -1,6 +1,9 @@
 import path from 'path'
 import AutoLoad from '@fastify/autoload'
 import { fileURLToPath } from 'url'
+import sensible from "./plugins/sensible.js"
+import swagger from "./plugins/swagger.js"
+import schemas from "./plugins/schemas.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -9,22 +12,22 @@ const __dirname = path.dirname(__filename)
 export const options = {}
 
 export default async function (fastify, opts) {
-  // Place here your custom code!
 
-  // Do not touch the following lines
+  //Fastify ecosystem plugins
+  fastify.register(sensible)
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
+  //MY CUSTOM PLUGINS
+  fastify.register(swagger)
+  fastify.register(schemas) //Registramos los schemas
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
+  //MY DECORATORS, funciones o datos que se agregan a la instancia para ampliar la funcionalidad.
+  // Agregar metadatos globales a la instancia de Fastify
+  fastify.decorate('meta', {
+    some: "metadata"
+  });
+
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
+    routeParams: true,
   })
 }

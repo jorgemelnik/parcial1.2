@@ -1,37 +1,24 @@
 import fp from 'fastify-plugin'
 
 export default fp(async (fastify) => {
-
   fastify.addSchema({
-    $id: "response204Schema",
-    "description": "No elements found",
-    type: "null",
-  });
-
-  fastify.addSchema({
-    $id: "response404Schema",
-    description: 'Not found',
-    type: 'object',
-    properties: {
-      statusCode: { type: "number" },
-      error: { type: "string" },
-      message: { type: 'string' }
-    },
-    required: ["statusCode", "error", "message"],
-  });
-
-  fastify.addSchema({
-    $id: "response400Schema",
-    description: 'Not found',
-    type: 'object',
+    $id: "genericErrorSchema",
+    description: "Generic error schema",
+    type: "object",
     properties: {
       statusCode: { type: "number" },
       code: { type: "string" },
       error: { type: "string" },
-      message: { type: 'string' }
+      message: { type: 'string' },
     },
     required: ["statusCode", "error", "message"],
+  })
+  fastify.addSchema({
+    $id: "response204Schema",
+    description: 'No elements found',
+    type: undefined,
   });
+
 
   fastify.addSchema({
     $id: "idParamSchema",
@@ -59,10 +46,10 @@ export default fp(async (fastify) => {
   });
 
   fastify.addSchema({
-    $id: "contactoSinIdSchema",
-    description: 'Contacto sin id',
-    type: 'object',
-    properties: {
+    "$id": "contactoSinIdSchema",
+    "description": 'Contacto sin id',
+    "type": 'object',
+    "properties": {
       foto: { type: 'string' },
       nombre: { type: 'string', minLength: 5 },
       sobrenombre: { type: 'string', minLength: 2, maxLength: 10 },
@@ -70,12 +57,12 @@ export default fp(async (fastify) => {
       email: { type: 'string', format: 'email' },
       telefono: { type: 'string', minLength: 3, maxLength: 20 }
     },
-    required: ["foto", "nombre", "sobrenombre", "edad", "email", "telefono"]
+    "required": ["foto", "nombre", "sobrenombre", "edad", "email", "telefono"]
   });
 
   fastify.addSchema({
     $id: "contactosSchema",
-    description: 'Contactos',
+    description: 'Contacts list.',
     type: 'array',
     items: { $ref: "contactoSchema" },
   });
