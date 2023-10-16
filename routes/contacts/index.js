@@ -9,23 +9,8 @@ export default async function (fastify, opts) {
             summary: 'Get contacts list',
             tags: ['contacts'],
             response: {
-                200: {
-                    description: "Contact list has elements.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "contactosSchema" }
-                        }
-                    },
-
-                },
-                204: {
-                    description: "There are no contacts.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "response204Schema" }
-                        }
-                    },
-                },
+                200: { description: "Contact list has elements.", $ref: "contactosSchema" },
+                204: { description: "There are no contacts.", $ref: "response204Schema" },
             }
         },
         handler: async (request, reply) => {
@@ -42,38 +27,16 @@ export default async function (fastify, opts) {
             tags: ['contacts'],
             params: { $ref: "idParamSchema" },
             response: {
-                200: {
-                    description: "Contact found by id.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "contactoSchema" }
-                        }
-                    },
-                },
-                404: {
-                    description: "Contact not found.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-
-                },
-                400: {
-                    description: "Bad Request.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-                }
+                200: { description: "Contact found by id.", $ref: "contactoSchema" },
+                404: { description: "Id not found.", $ref: "genericErrorSchema" },
+                400: { description: "Bad Request.", $ref: "genericErrorSchema" },
             }
         },
         handler: async function (request, reply) {
             const id = parseInt(request.params.id);
             const contacto = contactos.find(contacto => contacto.id === id);
             if (!contacto)
-                reply.notFound("Contacto no encontrado.");
+                return reply.notFound();
             return reply.send(contacto);
         }
     });
@@ -85,23 +48,8 @@ export default async function (fastify, opts) {
             tags: ['contacts'],
             params: { $ref: "idParamSchema" },
             response: {
-                204: {
-                    description: "Contact deleted by id.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "response204Schema" }
-                        }
-                    },
-                },
-                404: {
-                    description: "Contact not found.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-
-                },
+                204: { description: "Contact deleted by id.", $ref: "response204Schema" },
+                404: { description: "Id not found.", $ref: "genericErrorSchema" },
             }
         },
         handler:
@@ -124,22 +72,8 @@ export default async function (fastify, opts) {
             tags: ['contacts'],
             body: { $ref: "contactoSinIdSchema" },
             response: {
-                201: {
-                    description: "Contact created.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "contactoSchema" }
-                        }
-                    },
-                },
-                400: {
-                    description: "Bad Request.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-                }
+                201: { description: "Contact created.", $ref: "contactoSchema" },
+                400: { description: "Bad Request.", $ref: "genericErrorSchema" },
             },
         },
         handler: async function (request, reply) {
@@ -157,31 +91,9 @@ export default async function (fastify, opts) {
             params: { $ref: "idParamSchema" },
             body: { $ref: "contactoSchema" },
             response: {
-                200: {
-                    description: "Contact updated by id.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "contactoSchema" }
-                        }
-                    },
-                },
-                404: {
-                    description: "Contact not found.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-
-                },
-                400: {
-                    description: "Bad Request.",
-                    "content": {
-                        "application/json": {
-                            schema: { $ref: "genericErrorSchema" }
-                        }
-                    },
-                }
+                200: { description: "Contact updated by id.", $ref: "contactoSchema" },
+                404: { description: "Id not found.", $ref: "genericErrorSchema" },
+                400: { description: "Bad Request.", $ref: "genericErrorSchema" },
             },
 
         },

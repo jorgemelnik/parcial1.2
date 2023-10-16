@@ -6,28 +6,13 @@ export default fp(async (fastify) => {
     description: "Generic error schema",
     type: "object",
     properties: {
-      statusCode: { type: "number" },
-      code: { type: "string" },
-      error: { type: "string" },
-      message: { type: 'string' },
+      "statusCode": { type: "number" },
+      "code": { type: "string" },
+      "error": { type: "string" },
+      "message": { type: 'string' },
     },
-    required: ["statusCode", "error", "message"],
+    required: ["message"],
   })
-  fastify.addSchema({
-    $id: "response204Schema",
-    description: 'No elements found',
-    type: undefined,
-  });
-
-
-  fastify.addSchema({
-    $id: "idParamSchema",
-    description: "Id de la ruta",
-    type: 'object',
-    properties: {
-      id: { type: 'number' }
-    }
-  });
 
   fastify.addSchema({
     $id: "contactoSchema",
@@ -44,6 +29,23 @@ export default fp(async (fastify) => {
     },
     required: ["id", "foto", "nombre", "sobrenombre", "edad", "email", "telefono"]
   });
+
+  fastify.addSchema({
+    $id: "response204Schema",
+    description: 'No elements found',
+    type: undefined,
+  });
+
+
+  fastify.addSchema({
+    $id: "idParamSchema",
+    description: "Id de la ruta",
+    type: 'object',
+    properties: {
+      id: { type: 'number' }
+    }
+  });
+
 
   fastify.addSchema({
     "$id": "contactoSinIdSchema",

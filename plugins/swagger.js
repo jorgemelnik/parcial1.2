@@ -43,8 +43,8 @@ export default fp(async (fastify, opts) => {
       deepLinking: false
     },
     uiHooks: {
-      onRequest: function (request, reply, next) { next() },
-      preHandler: function (request, reply, next) { next() },
+      // onRequest: function (request, reply, next) { next() },
+      // preHandler: function (request, reply, next) { next() },
     },
     staticCSP: false,
     // transformStaticCSP: (header) => header,
