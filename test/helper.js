@@ -4,6 +4,7 @@
 import helper from 'fastify-cli/helper.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import * as contactoService from "../servicios/contactos.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

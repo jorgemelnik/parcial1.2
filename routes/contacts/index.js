@@ -1,7 +1,16 @@
 import { findAll,findOneById,deleteById, create,updateById } from "../../servicios/contactos.js"
 
-export default async function (fastify, opts) {
+export async function findAllHandler(request, reply) {
+    const contactos = findAll();
+    if (contactos.length === 0){
+        reply.status(204);
+        return reply.send();
+    }
+    return reply.send(contactos);
+}
 
+export default async function (fastify, opts) {
+    await fastify.decorate("contactos",findAll);
     //GET ALL
     fastify.get('/', {
         schema: {
@@ -12,12 +21,7 @@ export default async function (fastify, opts) {
                 204: { description: "There are no contacts.", $ref: "response204Schema" },
             }
         },
-        handler: async (request, reply) => {
-            const contactos = findAll();
-            if (contactos.length === 0)
-                return reply.status(204).send();
-            return reply.send(contactos);
-        },
+        handler: findAllHandler,
     });
 
     //GET BY ID

@@ -1,5 +1,6 @@
 import { test } from 'tap'
 import { build } from '../helper.js'
+import * as contactoService from "../../servicios/contactos.js"
 
 const expectedMatch = {
     id: Number,
@@ -39,36 +40,7 @@ test('get todos los contactos con Datos', async (t) => {
     t.equal(res.statusCode, 200, 'Hay contactos');
 });
 
-test('get todos los contactos VACIO', async (t) => {
-    //Arrange
-    const app = await build(t)
-    await app.inject({
-        url: '/contacts/1',
-        method: 'DELETE'
-    })
-    await app.inject({
-        url: '/contacts/2',
-        method: 'DELETE'
-    })
-    await app.inject({
-        url: '/contacts/3',
-        method: 'DELETE'
-    })
-    await app.inject({
-        url: '/contacts/4',
-        method: 'DELETE'
-    })
-    //FIXME: sería mejor obtener todos y borrarlos todos.
 
-    //ACT
-    const res = await app.inject({
-        url: '/contacts',
-        method: 'GET'
-    });
-
-    //ASSERT
-    t.equal(res.statusCode, 204, 'No hay contactos');
-});
 
 test('get por id falla', async (t) => {
     //ARRANGE

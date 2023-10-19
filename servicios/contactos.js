@@ -40,6 +40,7 @@ const contactos = [
 ];
 
 export function findAll() {
+    console.log("FIND ALL ORIGINAL");
     return contactos;
 }
 

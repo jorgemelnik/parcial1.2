@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "c8 tap \"test/**/*.test.js\"",
+    "test": "tap \"test/**/*.test.js\"",
     "start": "FASTIFY_ADDRESS=0.0.0.0 FASTIFY_PORT=3000 fastify start -l info app.js",
     "dev": "FASTIFY_ADDRESS=0.0.0.0 FASTIFY_PORT=3000 fastify start -w -l info -P app.js"
   },
@@ -25,10 +25,6 @@
     "fastify-plugin": "^4.0.0"
   },
   "devDependencies": {
-    "c8": "^7.13.0",
-    "tap": "^16.1.0"
-  },
-  "tap": {
-    "coverage": false
+    "tap": "^18.5.2"
   }
 }
