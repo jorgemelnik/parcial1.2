@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import sensible from "./plugins/sensible.js"
 import swagger from "./plugins/swagger.js"
 import schemas from "./plugins/schemas.js"
+import cors from './plugins/cors.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -15,6 +16,7 @@ export default async function (fastify, opts) {
 
   //Fastify ecosystem plugins
   fastify.register(sensible)
+  fastify.register(cors);
 
   //MY CUSTOM PLUGINS
   fastify.register(swagger)
