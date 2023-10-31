@@ -4,36 +4,36 @@ const contactos = [
     {
         id: 1,
         foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Connor_Grill.jpg/900px-Connor_Grill.jpg',
-        nombre: 'Juan Perez',
-        sobrenombre: 'Ejemplero',
+        nombre: 'Santiago',
+        sobrenombre: 'Martinez',
         edad: 18,
-        email: 'juan@ejemplo.com',
+        email: 'samarti@ucu.edu.uy',
         telefono: '1234567890'
     },
     {
         id: 2,
         foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Connor_Grill.jpg/900px-Connor_Grill.jpg',
         nombre: 'Juan Perez',
-        sobrenombre: 'Ejemplero',
-        edad: 18,
+        sobrenombre: 'Juanpi',
+        edad: 22,
         email: 'juan@ejemplo.com',
         telefono: '1234567890'
     },
     {
         id: 3,
         foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Connor_Grill.jpg/900px-Connor_Grill.jpg',
-        nombre: 'Juan Perez',
-        sobrenombre: 'Ejemplero',
-        edad: 18,
-        email: 'juan@ejemplo.com',
+        nombre: 'Santiago Panozzo',
+        sobrenombre: 'Santii',
+        edad: 16,
+        email: 'spana@ucu.edu.uy',
         telefono: '1234567890'
     },
     {
         id: 4,
         foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Connor_Grill.jpg/900px-Connor_Grill.jpg',
-        nombre: 'Juan Perez',
-        sobrenombre: 'Ejemplero',
-        edad: 18,
+        nombre: 'Rodrigo Carboné',
+        sobrenombre: 'Rodri',
+        edad: 23,
         email: 'juan@ejemplo.com',
         telefono: '1234567890'
     }
@@ -53,17 +53,17 @@ export function deleteById(id) {
 
     if (0 > index)
         throw new Error("No existe el contacto.");
-    
+
     contactos.splice(index, 1);
 }
 
-export function create (contacto) {
+export function create(contacto) {
     contacto.id = id++;
     contactos.push(contacto);
     return contacto;
 }
 
-export function updateById(id,contactoRecibido){
+export function updateById(id, contactoRecibido) {
     const contactoAModificar = contactos.find(c => c.id === id);
     if (!contactoAModificar)
         throw new Error("No existe el contacto.");
@@ -73,6 +73,6 @@ export function updateById(id,contactoRecibido){
     contactoAModificar.edad = contactoRecibido.edad;
     contactoAModificar.email = contactoRecibido.email;
     contactoAModificar.telefono = contactoRecibido.telefono;
-    
+
     return contactoAModificar;
 }

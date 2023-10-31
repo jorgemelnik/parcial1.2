@@ -82,6 +82,7 @@ export default async function (fastify, opts) {
             },
         },
         handler: async function (request, reply) {
+            console.log("BODY: ",request.body)
             const contactoCreado = create(request.body);
             return reply.status(201).send(contactoCreado);
         }
