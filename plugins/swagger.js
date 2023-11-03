@@ -20,13 +20,13 @@ export default fp(async (fastify, opts) => {
         },
       ],
       components: {
-        // securitySchemes: {
-        //   apiKey: {
-        //     type: 'apiKey',
-        //     name: 'apiKey',
-        //     in: 'header',
-        //   },
-        // },
+        securitySchemes: {
+          BearerAuth: {
+            type: 'http',
+            scheme: "bearer",
+            bearerFormat: "JWT"
+          },
+        },
       },
       consumes: ['application/json'],
       produces: ['application/json'],

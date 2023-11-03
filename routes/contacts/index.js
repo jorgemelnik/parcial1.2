@@ -1,8 +1,8 @@
-import { findAll,findOneById,deleteById, create,updateById } from "../../servicios/contactos.js"
+import { findAll, findOneById, deleteById, create, updateById } from "../../servicios/contactos.js"
 
 export async function findAllHandler(request, reply) {
     const contactos = findAll();
-    if (contactos.length === 0){
+    if (contactos.length === 0) {
         reply.status(204);
         return reply.send();
     }
@@ -10,7 +10,7 @@ export async function findAllHandler(request, reply) {
 }
 
 export default async function (fastify, opts) {
-    await fastify.decorate("contactos",findAll);
+    await fastify.decorate("contactos", findAll);
     //GET ALL
     fastify.get('/', {
         schema: {
@@ -21,6 +21,7 @@ export default async function (fastify, opts) {
                 204: { description: "There are no contacts.", $ref: "response204Schema" },
             }
         },
+        onRequest: [fastify.authenticate],
         handler: findAllHandler,
     });
 
@@ -36,6 +37,7 @@ export default async function (fastify, opts) {
                 400: { description: "Bad Request.", $ref: "genericErrorSchema" },
             }
         },
+        onRequest: [fastify.authenticate],
         handler: async function (request, reply) {
             const id = parseInt(request.params.id);
             const contacto = findOneById(id);
@@ -56,13 +58,14 @@ export default async function (fastify, opts) {
                 404: { description: "Id not found.", $ref: "genericErrorSchema" },
             }
         },
+        onRequest: [fastify.authenticate],
         handler:
             async function (request, reply) {
                 const id = parseInt(request.params.id);
                 try {
                     deleteById(id);
                 }
-                catch(e){
+                catch (e) {
                     return reply.notFound(e.message);
                 }
                 return reply.status(204).send();
@@ -81,8 +84,9 @@ export default async function (fastify, opts) {
                 400: { description: "Bad Request.", $ref: "genericErrorSchema" },
             },
         },
+        onRequest: [fastify.authenticate],
         handler: async function (request, reply) {
-            console.log("BODY: ",request.body)
+            console.log("BODY: ", request.body)
             const contactoCreado = create(request.body);
             return reply.status(201).send(contactoCreado);
         }
@@ -101,6 +105,7 @@ export default async function (fastify, opts) {
             },
 
         },
+        onRequest: [fastify.authenticate],
         handler: async function (request, reply) {
             // =>
             const id = parseInt(request.params.id);
@@ -108,13 +113,11 @@ export default async function (fastify, opts) {
             if (id !== contactoRecibido.id)
                 return reply.badRequest();
             try {
-                const contactoModificado = updateById(id,contactoRecibido);
+                const contactoModificado = updateById(id, contactoRecibido);
                 return reply.send(contactoModificado);
-            }catch(e){
+            } catch (e) {
                 return reply.notFound(e.message);
             }
-            
-            
         }
     });
 }

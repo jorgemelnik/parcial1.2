@@ -15,6 +15,38 @@ export default fp(async (fastify) => {
   })
 
   fastify.addSchema({
+    $id: "loginSchema",
+    description: 'Login schema',
+    type: 'object',
+    properties: {
+      email: { type: 'string' },
+      password: { type: 'string' },
+    },
+    required: ["email", "password"]
+  });
+
+  fastify.addSchema({
+    $id: "userSchema",
+    description: 'Login schema',
+    type: 'object',
+    properties: {
+      email: { type: 'string' },
+      id: { type: 'number' },
+    },
+    required: ["email", "id"]
+  });
+
+  fastify.addSchema({
+    $id: "tokenSchema",
+    description: 'Token schema',
+    type: 'object',
+    properties: {
+      token: { type: 'string' },
+    },
+    required: ["token"]
+  });
+
+  fastify.addSchema({
     $id: "contactoSchema",
     description: 'Contacto',
     type: 'object',
