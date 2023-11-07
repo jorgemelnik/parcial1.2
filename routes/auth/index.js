@@ -23,7 +23,7 @@ export default async function (fastify, opts) {
         },
         onRequest: [fastify.authenticate],
         handler: (request, reply) => {
-            reply.send(request.user)
+            return reply.send(request.user)
         }
     })
 
@@ -42,11 +42,14 @@ export default async function (fastify, opts) {
         handler: (request, reply) => {
             const { body } = request;
             console.log({ body });
+            if (body.password != "lapassword") {
+                reply.unauthorized();
+            }
             const token = fastify.jwt.sign({
-                id: 2,
-                email: 'juan@ejemplo.com',
+                id: 999,
+                email: body.email,
             },)
-            reply.send({ token })
+            return reply.send({ token })
         }
     })
 }
